@@ -22,7 +22,7 @@ src/term.c
 ```c
 #include <limine_terminal/term.h>
 
-struct image_t *image = image_open(/* Background file address */, /* Background file size */);
+struct image_t *image = image_open(/* Background file address (BMP, PNG, or JPEG) */, /* Background file size */);
 
 font_t font
 {
