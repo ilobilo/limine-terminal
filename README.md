@@ -34,7 +34,7 @@ void *term_memset(void *dest, int val, size_t count) { /* memset */ }
 
 struct image_t *image = image_open(/* Background file address (BMP, PNG, or JPEG) */, /* Background file size */);
 
-font_t font
+struct font_t font =
 {
     /* Font address */,
     /* Font width */,
@@ -44,7 +44,7 @@ font_t font
     DEFAULT_FONT_SCALE_Y,
 };
 
-style_t style
+struct style_t style =
 {
     DEFAULT_ANSI_COLOURS,
     DEFAULT_ANSI_BRIGHT_COLOURS,
@@ -56,7 +56,7 @@ style_t style
     DEFAULT_MARGIN_GRADIENT
 };
 
-background_t back
+struct background_t back =
 {
     image, /* You can set this to NULL to disable background */
     /* IMAGE_CENTERED/STRETCHED/TILED */,
