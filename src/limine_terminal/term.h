@@ -10,6 +10,24 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define DEFAULT_FONT_SPACING 1
+#define DEFAULT_FONT_SCALE_X 1
+#define DEFAULT_FONT_SCALE_Y 1
+
+#define DEFAULT_ANSI_COLOURS { 0x00000000, 0x00AA0000, 0x0000AA00, 0x00AA5500, 0x000000AA, 0x00AA00AA, 0x0000AAAA, 0x00AAAAAA }
+#define DEFAULT_ANSI_BRIGHT_COLOURS { 0x00555555, 0x00FF5555, 0x0055FF55, 0x00FFFF55, 0x005555FF, 0x00FF55FF, 0x0055FFFF, 0x00FFFFFF }
+
+#define DEFAULT_BACKGROUND 0xA0000000
+#define DEFAULT_FOREGROUND 0x00AAAAAA
+
+#define DEFAULT_BACKGROUND_BRIGHT 0xA0555555
+#define DEFAULT_FOREGROUND_BRIGHT 0x00FFFFFF
+
+#define DEFAULT_MARGIN 64
+#define DEFAULT_MARGIN_GRADIENT 4
+
+#define DEFAULT_BACKDROP 0x00000000
+
 struct framebuffer_t
 {
     uintptr_t address;
@@ -47,6 +65,15 @@ struct background_t
     uint32_t backdrop;
 };
 
-bool term_init(struct term_context *term, struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg);
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+struct term_context *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
