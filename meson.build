@@ -1,4 +1,4 @@
-project('limine-terminal', ['c', 'cpp'],
+project('limine-terminal', 'c',
     license : 'BSD-2-Clause',
     version : 'v0.1'
 )
