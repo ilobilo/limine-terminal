@@ -22,6 +22,16 @@ src/term.c
 ```c
 #include <limine_terminal/term.h>
 
+void *term_alloc(size_t size) { /* allocate memory */ }
+void *term_realloc(void *oldptr, size_t size) { /* reallocate memory */ }
+
+// size is the same value that was passed to term_alloc()
+void term_free(void *ptr, size_t size) { /* free memory with size */ }
+void term_freensz(void *ptr) { /* free memory */ }
+
+void *term_memcpy(void *dest, const void *src, size_t size) { /* memcpy */ }
+void *term_memset(void *dest, int val, size_t count) { /* memset */ }
+
 struct image_t *image = image_open(/* Background file address (BMP, PNG, or JPEG) */, /* Background file size */);
 
 font_t font
