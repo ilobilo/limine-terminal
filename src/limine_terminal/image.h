@@ -27,9 +27,17 @@ enum image_style
     IMAGE_STRETCHED
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void image_make_centered(struct image_t *image, int frame_x_size, int frame_y_size, uint32_t back_colour);
 void image_make_stretched(struct image_t *image, int new_x_size, int new_y_size);
 struct image_t *image_open(void *buffer, size_t size);
 void image_close(struct image_t *image);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

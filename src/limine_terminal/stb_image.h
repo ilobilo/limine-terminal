@@ -148,6 +148,11 @@ RECENT REVISION HISTORY:
 #define STBI_ONLY_PNG
 #define STBI_ONLY_BMP
 
+static inline int __stbi___abs(int i)
+{
+  return i < 0 ? -i : i;
+}
+
 // DOCUMENTATION
 //
 // Limitations:
@@ -402,7 +407,7 @@ enum
    STBI_rgb_alpha  = 4
 };
 
-#include <stdlib.h>
+// #include <stdlib.h>
 typedef unsigned char stbi_uc;
 typedef unsigned short stbi_us;
 
@@ -605,7 +610,7 @@ STBIDEF int   stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const ch
 
 #include <stdarg.h>
 #include <stddef.h> // ptrdiff_t on osx
-#include <stdlib.h>
+// #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 
@@ -4657,9 +4662,9 @@ static stbi_uc first_row_filter[5] =
 static int stbi__paeth(int a, int b, int c)
 {
    int p = a + b - c;
-   int pa = abs(p-a);
-   int pb = abs(p-b);
-   int pc = abs(p-c);
+   int pa = __stbi___abs(p-a);
+   int pb = __stbi___abs(p-b);
+   int pc = __stbi___abs(p-c);
    if (pa <= pb && pa <= pc) return a;
    if (pb <= pc) return b;
    return c;
@@ -5563,7 +5568,7 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
       return NULL; // error code already set
 
    flip_vertically = ((int) s->img_y) > 0;
-   s->img_y = abs((int) s->img_y);
+   s->img_y = __stbi___abs((int) s->img_y);
 
    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");

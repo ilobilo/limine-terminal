@@ -49,6 +49,8 @@ static inline uint32_t colour_blend(uint32_t fg, uint32_t bg)
     return ARGB(0, r, g, b);
 }
 
+
+__attribute__((no_sanitize("undefined")))
 static uint32_t blend_gradient_from_box(struct style_t style, struct framebuffer_t fb, size_t x, size_t y, uint32_t bg_px, uint32_t hex)
 {
     size_t distance, x_distance, y_distance;
@@ -171,6 +173,7 @@ static inline void genloop(struct style_t style, struct image_t *background, uin
 
 static uint32_t blend_external(struct style_t style, struct framebuffer_t fb, size_t x, size_t y, uint32_t orig)
 {
+    (void)style;
     (void)fb;
     (void)x;
     (void)y;
@@ -239,13 +242,18 @@ static void generate_canvas(struct style_t style, struct image_t *background, si
     else *bg_canvas = NULL;
 }
 
-bool term_init(struct term_context *term, struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg)
+struct term_context *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg)
 {
     if (backg.background == NULL)
     {
         style.margin = 0;
         style.margin_gradient = 0;
     }
+
+    if (font.scale_x < 1)
+        font.scale_x = 1;
+    if (font.scale_y < 1)
+        font.scale_y = 1;
 
 #define FONT_MAX 16384
     size_t font_size = (font.width * font.height * FBTERM_FONT_GLYPHS) / 8;
@@ -273,7 +281,7 @@ no_load_font:;
     uint32_t *bg_canvas;
     generate_canvas(style, backg.background, &bg_canvas_size, &bg_canvas, frm);
 
-    term = fbterm_init(term_alloc,
+    struct term_context *term = fbterm_init(term_alloc,
         (void *)frm.address,
         frm.width, frm.height, frm.pitch,
         bg_canvas,
@@ -294,5 +302,5 @@ no_load_font:;
     }
 
     term_context_reinit(term);
-    return true;
+    return term;
 }
