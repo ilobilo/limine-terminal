@@ -1,0 +1,4 @@
+[submodule "src/terminal"]
+	path = src/terminal
+	url = https://github.com/limine-bootloader/terminal
+	shallow = true
