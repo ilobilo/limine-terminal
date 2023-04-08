@@ -1,5 +1,5 @@
 # Limine Terminal
-### Based on [limine bootloader](https://github.com/limine-bootloader/limine) and [limine terminal](https://github.com/limine-bootloader/terminal)
+### Based on [limine bootloader](https://github.com/limine-bootloader/limine) and [flanterm](https://github.com/mintsuki/flanterm)
 
 ## Building
 First of all, clone this repo with ``--recursive`` flag to download terminal submodule
@@ -11,8 +11,8 @@ dependency('limine_terminal')
 * Add directory ``src`` to your include path (optionally ``fonts``)
 * Compile these files:
 ```
-src/terminal/backends/framebuffer.c
-src/terminal/term.c
+src/flanterm/backends/fb.c
+src/flanterm/flanterm.c
 src/stb_image.c
 src/image.c
 src/term.c
@@ -63,7 +63,7 @@ struct background_t back =
     DEFAULT_BACKDROP
 };
 
-struct term_context *term = term_init(frm, font, style, back);
+term_t *term = term_init(frm, font, style, back);
 
 term_write(term, "abcdefg", 7);
 term->clear(term, true /* Move the cursor or not */);

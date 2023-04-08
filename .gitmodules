@@ -1,4 +1,4 @@
-[submodule "src/terminal"]
-	path = src/terminal
-	url = https://github.com/limine-bootloader/terminal
+[submodule "src/flanterm"]
+	path = src/flanterm
+	url = https://github.com/mintsuki/flanterm
 	shallow = true

@@ -2,11 +2,6 @@
 #include <limine_terminal/image.h>
 #include <limine_terminal/term.h>
 
-#include <stddef.h>
-#include <stdint.h>
-#include <terminal/backends/framebuffer.h>
-#include <terminal/term.h>
-
 #define A(rgb) (uint8_t)(rgb >> 24)
 #define R(rgb) (uint8_t)(rgb >> 16)
 #define G(rgb) (uint8_t)(rgb >> 8)
@@ -242,7 +237,7 @@ static void generate_canvas(struct style_t style, struct image_t *background, si
     else *bg_canvas = NULL;
 }
 
-struct term_context *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg)
+term_t *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg)
 {
     if (backg.background == NULL)
     {
@@ -256,7 +251,7 @@ struct term_context *term_init(struct framebuffer_t frm, struct font_t font, str
         font.scale_y = 1;
 
 #define FONT_MAX 16384
-    size_t font_size = (font.width * font.height * FBTERM_FONT_GLYPHS) / 8;
+    size_t font_size = (font.width * font.height * FLANTERM_FB_FONT_GLYPHS) / 8;
     if (font_size > FONT_MAX)
         goto no_load_font;
 
@@ -281,7 +276,7 @@ no_load_font:;
     uint32_t *bg_canvas;
     generate_canvas(style, backg.background, &bg_canvas_size, &bg_canvas, frm);
 
-    struct term_context *term = fbterm_init(term_alloc,
+    term_t *term = flanterm_fb_init(term_alloc,
         (void *)frm.address,
         frm.width, frm.height, frm.pitch,
         bg_canvas,
@@ -301,6 +296,11 @@ no_load_font:;
         backg.background = NULL;
     }
 
-    term_context_reinit(term);
+    flanterm_context_reinit(term);
     return term;
+}
+
+void term_write(term_t *ctx, const char *buf, size_t count)
+{
+    flanterm_write(ctx, buf, count);
 }

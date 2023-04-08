@@ -3,8 +3,8 @@
 
 #include <limine_terminal/image.h>
 
-#include <terminal/backends/framebuffer.h>
-#include <terminal/term.h>
+#include <flanterm/backends/fb.h>
+#include <flanterm/flanterm.h>
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -27,6 +27,8 @@
 #define DEFAULT_MARGIN_GRADIENT 4
 
 #define DEFAULT_BACKDROP 0x00000000
+
+typedef struct flanterm_context term_t;
 
 struct framebuffer_t
 {
@@ -70,7 +72,8 @@ struct background_t
 extern "C" {
 #endif
 
-struct term_context *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg);
+term_t *term_init(struct framebuffer_t frm, struct font_t font, struct style_t style, struct background_t backg);
+void term_write(term_t *ctx, const char *buf, size_t count);
 
 #ifdef __cplusplus
 }
