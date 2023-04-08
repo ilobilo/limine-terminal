@@ -9,8 +9,8 @@ limine_terminal_dep = declare_dependency(
         'src'
     ),
     sources : files(
-        'src/terminal/backends/framebuffer.c',
-        'src/terminal/term.c',
+        'src/flanterm/backends/fb.c',
+        'src/flanterm/flanterm.c',
         'src/stb_image.c',
         'src/image.c',
         'src/term.c'
