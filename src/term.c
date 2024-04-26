@@ -276,16 +276,20 @@ no_load_font:;
     uint32_t *bg_canvas;
     generate_canvas(style, backg.background, &bg_canvas_size, &bg_canvas, frm);
 
-    term_t *term = flanterm_fb_init(term_alloc,
-        (void *)frm.address,
-        frm.width, frm.height, frm.pitch,
+    term_t *term = flanterm_fb_init(
+        term_alloc, term_free,
+        (uint32_t *)frm.address, frm.width, frm.height, frm.pitch,
+        frm.red_mask_size, frm.red_mask_shift,
+        frm.green_mask_size, frm.green_mask_shift,
+        frm.blue_mask_size, frm.blue_mask_shift,
         bg_canvas,
         style.ansi_colours, style.ansi_bright_colours,
         &style.background, &style.foreground,
         &style.background_bright, &style.foreground_bright,
         (void *)font.address, font.width, font.height, font.spacing,
         font.scale_x, font.scale_y,
-        style.margin);
+        style.margin
+    );
 
     if (bg_canvas != NULL)
         term_free(bg_canvas, bg_canvas_size);
